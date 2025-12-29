@@ -11,7 +11,8 @@ import SwiftUI
 struct DanceStudioApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
     }
 }
+
