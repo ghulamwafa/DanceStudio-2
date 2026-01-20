@@ -1,21 +1,14 @@
 import SwiftUI
 
 struct RootView: View {
-    @State private var isLoggedIn = TokenStore.shared.token != nil
+    @ObservedObject private var session = SessionStore.shared
 
     var body: some View {
-        Group {
-            if isLoggedIn {
-                MainTabView {
-                    // Logout action
-                    isLoggedIn = false
-                }
-            } else {
-                AuthView {
-                    // Login success action
-                    isLoggedIn = true
-                }
-            }
+        // ✅ Always show the main tabs (Home, Bookings, Profile)
+        // No login gate here anymore.
+        MainTabView {
+            // Called when user taps "Logout" in ProfileView
+            session.logout()
         }
     }
 }

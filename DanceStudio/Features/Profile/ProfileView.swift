@@ -13,7 +13,7 @@ struct ProfileView: View {
                             .font(.title2)
                             .foregroundStyle(.blue)
                         VStack(alignment: .leading) {
-                            Text("Student")
+                            Text(SessionStore.shared.isAdmin ? "Admin" : "Student")
                                 .font(.headline)
                             Text("Demo mode")
                                 .font(.caption)
@@ -23,15 +23,19 @@ struct ProfileView: View {
                 }
 
                 Section("App") {
-                    NavigationLink {
-                        AboutView()
-                    } label: {
+                    if SessionStore.shared.isAdmin {
+                        NavigationLink {
+                            AdminPanelView()
+                        } label: {
+                            Label("Admin Panel", systemImage: "lock.shield")
+                        }
+                    }
+
+                    NavigationLink { AboutView() } label: {
                         Label("About", systemImage: "info.circle")
                     }
 
-                    NavigationLink {
-                        ContactView()
-                    } label: {
+                    NavigationLink { ContactView() } label: {
                         Label("Contact", systemImage: "phone")
                     }
                 }

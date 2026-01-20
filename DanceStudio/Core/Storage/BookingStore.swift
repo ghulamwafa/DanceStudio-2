@@ -7,26 +7,66 @@ final class BookingStore: ObservableObject {
 
     @Published var bookings: [Booking] = []
 
-    func addBooking(classId: Int, classTitle: String, dateTime: String) {
+    //  returns bookingId
+    @discardableResult
+    func addBooking(classId: Int, classTitle: String, dateTime: String, amount: Int) -> Int {
+        let newId = (bookings.first?.id ?? 0) + 1
+
         let new = Booking(
-            id: (bookings.first?.id ?? 0) + 1,
+            id: newId,
             classId: classId,
             classTitle: classTitle,
             dateTime: dateTime,
-            status: "confirmed"
+            status: "confirmed",
+            paymentStatus: "unpaid",
+            amount: amount
         )
         bookings.insert(new, at: 0)
+        return newId
     }
 
-    // ✅ NEW: Cancel booking
     func cancel(bookingId: Int) {
         if let index = bookings.firstIndex(where: { $0.id == bookingId }) {
+            let b = bookings[index]
             bookings[index] = Booking(
-                id: bookings[index].id,
-                classId: bookings[index].classId,
-                classTitle: bookings[index].classTitle,
-                dateTime: bookings[index].dateTime,
-                status: "canceled"
+                id: b.id,
+                classId: b.classId,
+                classTitle: b.classTitle,
+                dateTime: b.dateTime,
+                status: "canceled",
+                paymentStatus: b.paymentStatus,
+                amount: b.amount
+            )
+        }
+    }
+
+    // ✅ payment actions
+    func markPaid(bookingId: Int) {
+        if let index = bookings.firstIndex(where: { $0.id == bookingId }) {
+            let b = bookings[index]
+            bookings[index] = Booking(
+                id: b.id,
+                classId: b.classId,
+                classTitle: b.classTitle,
+                dateTime: b.dateTime,
+                status: b.status,
+                paymentStatus: "paid",
+                amount: b.amount
+            )
+        }
+    }
+
+    func refund(bookingId: Int) {
+        if let index = bookings.firstIndex(where: { $0.id == bookingId }) {
+            let b = bookings[index]
+            bookings[index] = Booking(
+                id: b.id,
+                classId: b.classId,
+                classTitle: b.classTitle,
+                dateTime: b.dateTime,
+                status: b.status,
+                paymentStatus: "refunded",
+                amount: b.amount
             )
         }
     }

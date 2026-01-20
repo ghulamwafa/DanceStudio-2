@@ -15,12 +15,12 @@ struct ContactView: View {
 
             HStack(spacing: 10) {
                 Image(systemName: "phone.fill")
-                Text("+7 777 000 0000")
+                Text("+7 7076569630")
             }
 
             HStack(spacing: 10) {
                 Image(systemName: "envelope.fill")
-                Text("support@dancestudio.com")
+                Text("abbas.wafa2023@gmail.com")
             }
 
             HStack(spacing: 10) {
